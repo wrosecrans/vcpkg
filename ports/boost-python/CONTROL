@@ -1,0 +1,4 @@
+Source: boost-python
+Version: 1.63
+Description: Peer-reviewed portable C++ source libraries, Python library
+# Build-Depends: zlib, bzip2
