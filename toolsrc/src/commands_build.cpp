@@ -37,6 +37,10 @@ namespace vcpkg::Commands::Build
             }
         }
 
+        // If these environment variables are set while running the VS2017 developer prompt, it will not correctly initialize the build environment.
+        System::set_environmental_variable(L"VSINSTALLDIR", L"");
+        System::set_environmental_variable(L"DevEnvDir", L"");
+
         const fs::path ports_cmake_script_path = paths.ports_cmake;
         const Environment::vcvarsall_and_platform_toolset vcvarsall_bat = Environment::get_vcvarsall_bat(paths);
         const std::wstring command = Strings::wformat(LR"("%s" %s >nul 2>&1 && cmake -DCMD=BUILD -DPORT=%s -DTARGET_TRIPLET=%s -DVCPKG_PLATFORM_TOOLSET=%s "-DCURRENT_PORT_DIR=%s/." -P "%s")",
@@ -102,7 +106,7 @@ namespace vcpkg::Commands::Build
 
     std::string create_user_troubleshooting_message(const package_spec& spec)
     {
-        return Strings::format("Please ensure sure you're using the latest portfiles with `vcpkg update`, then\n"
+        return Strings::format("Please ensure sure you're using the latest portfiles with `.\\vcpkg update`, then\n"
                                "submit an issue at https://github.com/Microsoft/vcpkg/issues including:\n"
                                "  Package: %s\n"
                                "  Vcpkg version: %s\n"
